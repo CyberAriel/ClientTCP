@@ -17,25 +17,36 @@ namespace TCP_Client
 
 
 
-        public static void WaitForAsync(int ms, Action toDo)
+        public static void WaitForAsync(String action, Action<DateTime> toDo)
         {
             
             
            
             void Timer_Elapsed(object? sender, ElapsedEventArgs e)
             {
-                Console.WriteLine($"static: { ms}");
-                if (--ms == 0)
+                if (action.Equals("Stop"))
                 {
-                    toDo?.Invoke();
+                    Console.WriteLine("End of timer");
                     timer.Elapsed -= Timer_Elapsed;
-                   
                 }
-            }
+                DateTime date = DateTime.Now;
+                
+                    toDo?.Invoke(date);
 
-            timer.Elapsed += Timer_Elapsed;
+                
+
+
+
+
+
+            }
+           
+                timer.Elapsed += Timer_Elapsed;
+            
+           
             
         }
+
     }
 
 }

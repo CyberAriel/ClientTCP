@@ -8,11 +8,29 @@ using System.Threading.Tasks;
 
 namespace TCP_Client
 {
+    public class Root
+    {
+        public string symbol { get; set; }
+        public string price { get; set; }
+
+    }
     internal class GetAPi
     {
+        public CollectData CollectData = new CollectData();
+
         static readonly HttpClient client = new HttpClient();
 
-        public async Task ShowAsync()
+        public void ShowList()
+        {
+            CollectData.ShowList();
+        }
+        public void TakeValue()
+        {
+            CollectData.TakeValue();
+        }
+
+
+        public async Task ShowAsync(DateTime date)
         {
             try
             {
@@ -20,40 +38,25 @@ namespace TCP_Client
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 
-                HttpResponseMessage response = await client.GetAsync("http://api.nbp.pl/api/exchangerates/rates/c/usd/today/");
+                HttpResponseMessage response = await client.GetAsync("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
                 
-                Root? JsonRoot =
-                 JsonSerializer.Deserialize<Root>(responseBody);
-               
-                
-                Console.WriteLine($"Code: {JsonRoot.code}, Bid: {JsonRoot.rates[0].bid}, Ask: {JsonRoot.rates[0].ask}");
+                Root? JsonRoot = JsonSerializer.Deserialize<Root>(responseBody);
+
+                CollectData.AddToList(date, JsonRoot.symbol, JsonRoot.price);
+
+                // Console.WriteLine($"Symbol: {JsonRoot.symbol}, Price: {JsonRoot.price}");
             }
             catch (HttpRequestException e)
             {
                 Console.WriteLine("\nException Caught!");
                 Console.WriteLine("Message :{0} ", e.Message);
             }
-        }
-        public class Rate
-        {
-            public string no { get; set; }
-            public string effectiveDate { get; set; }
-            public double bid { get; set; }
-            public double ask { get; set; }
-        }
 
-        public class Root
-        {
-            public string table { get; set; }
-            public string currency { get; set; }
-            public string code { get; set; }
-            public List<Rate> rates { get; set; }
         }
-
-
+        
     }
 
 }
