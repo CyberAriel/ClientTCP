@@ -16,18 +16,8 @@ namespace TCP_Client
     }
     internal class GetAPi
     {
-        public CollectData CollectData = new CollectData();
-
         static readonly HttpClient client = new HttpClient();
 
-        public void ShowList()
-        {
-            CollectData.ShowList();
-        }
-        public void TakeValue()
-        {
-            CollectData.TakeValue();
-        }
 
 
         public async Task ShowAsync(DateTime date)
@@ -44,8 +34,8 @@ namespace TCP_Client
 
                 
                 Root? JsonRoot = JsonSerializer.Deserialize<Root>(responseBody);
-
-                CollectData.AddToList(date, JsonRoot.symbol, JsonRoot.price);
+                
+                CollectData.Instance.AddToList(date, JsonRoot.symbol, JsonRoot.price);
 
                 // Console.WriteLine($"Symbol: {JsonRoot.symbol}, Price: {JsonRoot.price}");
             }

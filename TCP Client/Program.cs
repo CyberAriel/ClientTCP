@@ -8,6 +8,7 @@ namespace TCP_Client
 
         static async Task Main(string[] args)
         {
+            Console.WriteLine($"Start aplication at: {DateTime.Now}");
             string ServerIP = "127.0.0.1";
             int Port = 13000;
 
@@ -20,12 +21,12 @@ namespace TCP_Client
             userSpace.ExecuteWhenCommandAppears("Start", () => client.StartAsync(ServerIP, Port));
             userSpace.ExecuteWhenCommandAppearsMessage("Send", (message) => client.SendMessage(message));
             //userSpace.ExecuteWhenCommandAppears("USDPLN", (date) => getAPi.ShowAsync(date));
-            userSpace.ExecuteWhenCommandAppears("Data", () => getAPi.ShowList());
-            userSpace.ExecuteWhenCommandAppears("Value", () => getAPi.TakeValue());
+            userSpace.ExecuteWhenCommandAppears("Data", () => CollectData.Instance.ShowList());
+            userSpace.ExecuteWhenCommandAppears("Value", () => CollectData.Instance.TakeValue());
             userSpace.ExecuteWhenCommandAppears("Timer Start", () => TimerUse.WaitForAsync("Start", (date) => getAPi.ShowAsync(date)));
             userSpace.ExecuteWhenCommandAppears("Timer Stop", () => TimerUse.WaitForAsync("Stop", (date) => getAPi.ShowAsync(date)));
+            
 
-            Console.WriteLine(DateTime.Now);
 
 
             userSpace.ExecuteWhenCommandAppears("exit", () =>
