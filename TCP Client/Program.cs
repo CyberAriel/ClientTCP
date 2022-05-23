@@ -19,16 +19,14 @@ namespace TCP_Client
             
             var task = userSpace.StartConsoleInputHandlerAsync(cancellationToken);
             userSpace.ExecuteWhenCommandAppears("Start", () => client.StartAsync(ServerIP, Port));
-            userSpace.ExecuteWhenCommandAppearsMessage("Send", (message) => client.SendMessage(message));
-            //userSpace.ExecuteWhenCommandAppears("USDPLN", (date) => getAPi.ShowAsync(date));
+            userSpace.ExecuteWhenCommandAppearsMessage("Send", (message) => Client.Instance.SendMessage(message));
             userSpace.ExecuteWhenCommandAppears("Data", () => CollectData.Instance.ShowList());
-            userSpace.ExecuteWhenCommandAppears("Value", () => CollectData.Instance.TakeValue());
+            userSpace.ExecuteWhenCommandAppears("Value", () => CollectData.Instance.ShowValue());
+            userSpace.ExecuteWhenCommandAppears("Send List", () => CollectData.Instance.SendTCP());
+
             userSpace.ExecuteWhenCommandAppears("Timer Start", () => TimerUse.WaitForAsync("Start", (date) => getAPi.ShowAsync(date)));
             userSpace.ExecuteWhenCommandAppears("Timer Stop", () => TimerUse.WaitForAsync("Stop", (date) => getAPi.ShowAsync(date)));
             
-
-
-
             userSpace.ExecuteWhenCommandAppears("exit", () =>
             {
                 cancellationToken.Cancel();

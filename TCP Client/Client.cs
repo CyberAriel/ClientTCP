@@ -6,11 +6,22 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace TCP_Client
 {
-    public class Client//: IClient
+    public class JsonSerialize
     {
+        public DateTime Date { get; set; }
+        public uint Id { get; set; }
+        public decimal? Open { get; set; }
+        public decimal? Close { get; set; }
+        public decimal? High { get; set; }
+        public decimal? Low { get; set; }
+    }
+    public class Client
+    {
+        public static Client Instance = new Client();
         TcpClient tcp = new TcpClient();
 
         public async Task StartAsync(string server, int port)
@@ -57,6 +68,8 @@ namespace TCP_Client
 
         public void SendMessage(string message)
         {
+            
+
             tcp.GetStream().WriteAsync(Encoding.ASCII.GetBytes(message));
             Console.WriteLine("Sent: {0}", message);
         }

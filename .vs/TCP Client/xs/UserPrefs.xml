@@ -1,0 +1,34 @@
+﻿<Properties StartupConfiguration="{35D4A66B-50C6-46E9-BF0E-A8451D73C472}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="TCP Client/Client.cs">
+    <Files>
+      <File FileName="TCP Client/Program.cs" Line="36" Column="1" />
+      <File FileName="TCP Client/UserSpace.cs" Line="1" Column="1" />
+      <File FileName="TCP Client/TimerUse.cs" Line="33" Column="1" />
+      <File FileName="TCP Client/GetAPi.cs" Line="11" Column="1" />
+      <File FileName="TCP Client/CollectData.cs" Line="138" Column="1" />
+      <File FileName="TCP Client/Client.cs" Line="70" Column="10" />
+      <File FileName="TCP Client/IClient.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="TCP Client" expanded="True">
+            <Node name="TCP Client" expanded="True">
+              <Node name="Client.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.TCP_220Client PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

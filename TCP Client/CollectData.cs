@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace TCP_Client
 {
+    public class JsonString
+    {
+        public DateTime Date { get; set; }
+        public uint Id { get; set; }
+        public decimal? Open { get; set; }
+        public decimal? Close { get; set; }
+        public decimal? High { get; set; }
+        public decimal? Low { get; set; }
+    }
     struct DataFromServer
     {
         public DateTime Date;
@@ -25,14 +35,11 @@ namespace TCP_Client
     }
     public class CollectData
     {
-        List<DataFromServer> Data = new List<DataFromServer>();
-        List<DataValues> dataValues = new List<DataValues>();
+        List<DataFromServer> DataSecond = new List<DataFromServer>();
+        List<DataValues> DataMinutes = new List<DataValues>();
         uint id = 0;
         bool flaga = false;
-        public CollectData()
-        {
-            //Data.Add (new DataFromServer {Date= DateTime.Now, Id=0, Symbol="test", Price=0});
-        }
+        
 
         public static CollectData Instance = new CollectData();
 
@@ -45,22 +52,22 @@ namespace TCP_Client
 
 
                 id++;
-                Console.WriteLine(price);
-                if (decimal.TryParse(price.Replace(".",",").Trim(), out decimal pricedec))
-                    Console.WriteLine(pricedec);
+                
+                if (decimal.TryParse(price.Trim(), out decimal pricedec))
+                   
 
 
-                Data.Add(new DataFromServer { Date = DateTime.Now, Id = id, Symbol = symbol, Price = pricedec });
-
+                DataSecond.Add(new DataFromServer { Date = date, Id = id, Symbol = symbol, Price = pricedec });
 
 
                 TakeValue();
+                
             }
         }
         public void ShowList()
         {
             Console.WriteLine("Calling ShowList");
-            foreach (DataFromServer data in Data)
+            foreach (DataFromServer data in DataSecond)
             {
                 Console.WriteLine($"Date: {data.Date}, Id: {data.Id}, Symbol: {data.Symbol}, Price: {data.Price}");
             }
@@ -71,19 +78,19 @@ namespace TCP_Client
             if (id == 60)
             {
                 decimal? lowestUnitPrice =
-                (from prod in Data
+                (from prod in DataSecond
                  select prod.Price)
                 .Min();
 
                 decimal? HighestUnitPrice =
-                (from prod in Data
+                (from prod in DataSecond
                  select prod.Price)
                 .Max();
 
-                decimal? OpenUnitPrice = Data[0].Price;
-                decimal? CloseUnitPrice = Data[Data.Count - 1].Price;
-                DateTime DateList = Data[0].Date;
-                dataValues.Add(new DataValues
+                decimal? OpenUnitPrice = DataSecond[0].Price;
+                decimal? CloseUnitPrice = DataSecond[DataSecond.Count - 1].Price;
+                DateTime DateList = DataSecond[0].Date;
+                DataMinutes.Add(new DataValues
                 {
                     Date = DateList,
                     Id = 0,
@@ -92,16 +99,38 @@ namespace TCP_Client
                     High= HighestUnitPrice,
                     Low = lowestUnitPrice
                 });
-                Data.Clear();
+                DataSecond.Clear();
                 id = 0;
-                Console.WriteLine($"Low: {lowestUnitPrice}, High: {HighestUnitPrice}, Open: {OpenUnitPrice}, Close: {CloseUnitPrice}, List count: {dataValues.Count}");
+                Console.WriteLine($"Low: {lowestUnitPrice}, High: {HighestUnitPrice}, Open: {OpenUnitPrice}, Close: {CloseUnitPrice}, List count: {DataMinutes.Count}");
                 
             }
-            else
+        }
+       public void ShowValue()
+        {
+            foreach (DataValues data in DataMinutes)
             {
-                Console.WriteLine("The minute interval has not ended");
-            }
+                Console.WriteLine($"Date: {data.Date}, Id: {data.Id}, Low: {data.Low}, High: {data.High}, Open: {data.Open}, Close: {data.Close}, List count: {DataMinutes.Count}");
 
+            }
+        }
+        public void SendTCP()
+        {
+            foreach (DataValues data in DataMinutes)
+            {
+                var JsonSend = new JsonString
+                {
+                    Date = data.Date,
+                    Id = data.Id,
+                    Low = data.Low,
+                    High = data.High,
+                    Open = data.Open,
+                    Close = data.Close,
+                };
+                string jsonString = JsonSerializer.Serialize(JsonSend);
+                Client.Instance.SendMessage(jsonString);
+                Console.WriteLine($"Date: {data.Date}, Id: {data.Id}, Low: {data.Low}, High: {data.High}, Open: {data.Open}, Close: {data.Close}, List count: {DataMinutes.Count}");
+
+            }
         }
 
     }

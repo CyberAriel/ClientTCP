@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace TCP_Client
 {
+
     public class Root
     {
         public string symbol { get; set; }
@@ -17,8 +18,6 @@ namespace TCP_Client
     internal class GetAPi
     {
         static readonly HttpClient client = new HttpClient();
-
-
 
         public async Task ShowAsync(DateTime date)
         {
@@ -32,7 +31,6 @@ namespace TCP_Client
                 response.EnsureSuccessStatusCode();
                 string responseBody = await response.Content.ReadAsStringAsync();
 
-                
                 Root? JsonRoot = JsonSerializer.Deserialize<Root>(responseBody);
                 
                 CollectData.Instance.AddToList(date, JsonRoot.symbol, JsonRoot.price);

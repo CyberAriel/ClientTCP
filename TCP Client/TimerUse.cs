@@ -16,12 +16,8 @@ namespace TCP_Client
          static TimerUse() => timer.Start();
 
 
-
         public static void WaitForAsync(String action, Action<DateTime> toDo)
         {
-
-
-
             void Timer_Elapsed(object? sender, ElapsedEventArgs e)
             {
                 
@@ -33,18 +29,9 @@ namespace TCP_Client
                 DateTime date = DateTime.Now;
 
                 toDo?.Invoke(date);
-
-
-
-
-
-
-
             }
 
             timer.Elapsed += Timer_Elapsed;
-
-
 
         }
 
