@@ -15,16 +15,17 @@ namespace TCP_Client
        
          static TimerUse() => timer.Start();
 
-
+        
         public static void WaitForAsync(String action, Action<DateTime> toDo)
         {
+            
             void Timer_Elapsed(object? sender, ElapsedEventArgs e)
             {
                 
                 if (action.Equals("Stop"))
                 {
                     Console.WriteLine("End of timer");
-                    timer.Elapsed -= Timer_Elapsed;
+                   // timer.Elapsed -= Timer_Elapsed;
                 }
                 DateTime date = DateTime.Now;
 

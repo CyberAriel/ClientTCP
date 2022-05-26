@@ -46,6 +46,7 @@ namespace TCP_Client
 
         public void AddToList(DateTime date, string symbol, string price)
         {
+            
             if (date.Second == 0) flaga = true;
             if (id < 60 && flaga == true)
             {
@@ -53,9 +54,9 @@ namespace TCP_Client
 
                 id++;
                 
-                if (decimal.TryParse(price.Trim(), out decimal pricedec))
+                if (decimal.TryParse(price.Replace(".",",").Trim(), out decimal pricedec))
                    
-
+                    
 
                 DataSecond.Add(new DataFromServer { Date = date, Id = id, Symbol = symbol, Price = pricedec });
 
@@ -101,7 +102,8 @@ namespace TCP_Client
                 });
                 DataSecond.Clear();
                 id = 0;
-                Console.WriteLine($"Low: {lowestUnitPrice}, High: {HighestUnitPrice}, Open: {OpenUnitPrice}, Close: {CloseUnitPrice}, List count: {DataMinutes.Count}");
+                SendTCP();
+                //Console.WriteLine($"Low: {lowestUnitPrice}, High: {HighestUnitPrice}, Open: {OpenUnitPrice}, Close: {CloseUnitPrice}, List count: {DataMinutes.Count}");
                 
             }
         }
@@ -128,7 +130,7 @@ namespace TCP_Client
                 };
                 string jsonString = JsonSerializer.Serialize(JsonSend);
                 Client.Instance.SendMessage(jsonString);
-                Console.WriteLine($"Date: {data.Date}, Id: {data.Id}, Low: {data.Low}, High: {data.High}, Open: {data.Open}, Close: {data.Close}, List count: {DataMinutes.Count}");
+                //Console.WriteLine($"Date: {data.Date}, Id: {data.Id}, Low: {data.Low}, High: {data.High}, Open: {data.Open}, Close: {data.Close}, List count: {DataMinutes.Count}");
 
             }
         }

@@ -63,14 +63,23 @@ namespace TCP_Client
         public void Stop()
         {
             Console.WriteLine("Connection has ended");
-            tcp.Close();
+            //tcp.Close();
         }
 
         public void SendMessage(string message)
         {
+            Byte[] data = System.Text.Encoding.ASCII.GetBytes(message);
+            NetworkStream stream = tcp.GetStream();
+
+            // Send the message to the connected TcpServer.
+            stream.WriteAsync(data, 0, data.Length);
+
             
 
-            tcp.GetStream().WriteAsync(Encoding.ASCII.GetBytes(message));
+
+
+
+            //tcp.GetStream().WriteAsync(Encoding.ASCII.GetBytes("hello"));
             Console.WriteLine("Sent: {0}", message);
         }
     }

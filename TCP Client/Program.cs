@@ -18,11 +18,11 @@ namespace TCP_Client
             GetAPi getAPi = new GetAPi();
             
             var task = userSpace.StartConsoleInputHandlerAsync(cancellationToken);
-            userSpace.ExecuteWhenCommandAppears("Start", () => client.StartAsync(ServerIP, Port));
+            userSpace.ExecuteWhenCommandAppears("Start", () => Client.Instance.StartAsync(ServerIP, Port));
             userSpace.ExecuteWhenCommandAppearsMessage("Send", (message) => Client.Instance.SendMessage(message));
             userSpace.ExecuteWhenCommandAppears("Data", () => CollectData.Instance.ShowList());
             userSpace.ExecuteWhenCommandAppears("Value", () => CollectData.Instance.ShowValue());
-            userSpace.ExecuteWhenCommandAppears("Send List", () => CollectData.Instance.SendTCP());
+            userSpace.ExecuteWhenCommandAppears("List Send", () => CollectData.Instance.SendTCP());
 
             userSpace.ExecuteWhenCommandAppears("Timer Start", () => TimerUse.WaitForAsync("Start", (date) => getAPi.ShowAsync(date)));
             userSpace.ExecuteWhenCommandAppears("Timer Stop", () => TimerUse.WaitForAsync("Stop", (date) => getAPi.ShowAsync(date)));

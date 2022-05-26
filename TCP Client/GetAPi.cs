@@ -35,7 +35,7 @@ namespace TCP_Client
                 
                 CollectData.Instance.AddToList(date, JsonRoot.symbol, JsonRoot.price);
 
-                // Console.WriteLine($"Symbol: {JsonRoot.symbol}, Price: {JsonRoot.price}");
+               //  Console.WriteLine($"Symbol: {JsonRoot.symbol}, Price: {JsonRoot.price}");
             }
             catch (HttpRequestException e)
             {
